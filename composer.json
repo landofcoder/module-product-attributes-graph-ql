@@ -1,0 +1,23 @@
+{
+    "name": "landofcoder/module-product-attributes-graphql",
+    "description": "Magento 2 Product Attributes GraphQl extension",
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "name": "landofcoder",
+            "email": "info@landofcoder.com",
+            "homepage": "https://landofcoder.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "Lof\\ProductAttributesGraphQl\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}

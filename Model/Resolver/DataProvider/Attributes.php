@@ -61,7 +61,8 @@ class Attributes
                 $data['id'] = $attribute->getId();
                 $data['code'] = $attribute->getAttributeCode();
                 $data['label'] = $attribute->getStoreLabel();
-                $data['value'] = $product->getAttributeText($attribute->getAttributeCode());
+                $attributeValue = $product->getAttributeText($attribute->getAttributeCode());
+                $data['value'] = is_array($attributeValue) ? implode(", ", $attributeValue) : $attributeValue;
                 if (!in_array(null, $data, true) && !in_array(false, $data, true)) {
                     $additionalAttributes[] = $data;
                 }
@@ -86,9 +87,11 @@ class Attributes
                 $optionData = [];
                 foreach ($options as $option) {
                     if (!($option->getValue() == null) || !($option->getLabel() == " ")) {
+                        $optionValue = $option->getValue();
+                        $optionValue = is_array($optionValue) ? implode(", ", $optionValue) : $optionValue;
                         $optionData[] = [
                             'label' => $option->getLabel(),
-                            'value' => $option->getValue(),
+                            'value' => $optionValue,
                         ];
                     }
                 }

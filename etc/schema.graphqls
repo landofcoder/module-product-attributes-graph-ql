@@ -1,17 +1,36 @@
+interface ProductInterface {
+    additionalAttributes: AdditionalAttributes @doc(description: "Seller who sell this product") @resolver(class: "Lof\\ProductAttributesGraphQl\\Model\\Resolver\\AdditionalAttributes")
+}
+
 type Query {
-    additionAttributeBySku(
-        sku: String! @doc(description: "Product sku")
-    ): Attributes @resolver(class: "\\Lof\\ProductAttributesGraphQl\\Model\\Resolver\\AttributeBySku") @doc(description: "Get Product attributes by sku")
+    getVisibleAttributes: VisibleAttributesData @resolver(class: "\\Lof\\ProductAttributesGraphQl\\Model\\Resolver\\VisibleAttributes") @doc(description: "Get Product attributes by sku")
 }
 
-type Attributes @doc(description: "List of attributes") {
+type AdditionalAttributes {
     total_count: Int @doc(description: "The number of items returned")
-    items: [Attribute]! @doc(description: "An array of product attributes.")
+    items: [AdditionalAttribute] @doc(description: "An array of product attributes.")
 }
 
-type Attribute {
+type AdditionalAttribute {
     id: Int @doc(description: "Attribute id")
     code: String @doc(description: "Attribute code")
     label: String @doc(description: "Attribute name")
     value: String @doc(description: "Attribute value")
+}
+
+type VisibleAttributesData {
+    total_count: Int @doc(description: "The number of items returned")
+    items: [VisibleAttributes] @doc(description: "An array of product attributes.")
+}
+
+type VisibleAttributes {
+    attribute_code: String @doc(description: "Attribute code")
+    attribute_label: String @doc(description: "Attribute name")
+    total_count: Int @doc(description: "The number of items returned")
+    options: [VisibleAttributeOption] @doc(description: "Attribute options")
+}
+
+type VisibleAttributeOption {
+    label: String @doc(description: "Attribute option name")
+    value: String @doc(description: "Attribute option value")
 }

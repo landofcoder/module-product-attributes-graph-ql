@@ -6,8 +6,9 @@ use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Magento\Catalog\Model\Product;
 
-class AttributeBySku implements ResolverInterface
+class AdditionalAttributes implements ResolverInterface
 {
     /**
      * @var Attributes
@@ -28,11 +29,17 @@ class AttributeBySku implements ResolverInterface
      */
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
-        if (!isset($args['sku']) || (isset($args['sku']) && !$args['sku'])) {
-            throw new GraphQlInputException(__('sku is required.'));
+        if (!isset($value['model'])) {
+            throw new GraphQlInputException(__('Value must contain "model" property.'));
+        }
+        /** @var Product $product */
+        $product = $value['model'];
+        $productSku = $product->getSku();
+        if (empty($productSku)) {
+            throw new GraphQlInputException(__('Value must contain "product_sku" property.'));
         }
 
-        $data = $this->attributeRepository->getBySku($args['sku']);
+        $data = $this->attributeRepository->getAdditionalAttributesBySku($productSku);
         return [
             'total_count' => count($data),
             'items' => $data
